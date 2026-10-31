@@ -1,0 +1,107 @@
+/* Online room layer: the same board and draft dialog, driven by the room server. */
+body.online .local-only{display:none!important}
+body.online .view-tabs,body.online #captainStart,body.online #filterButton,body.online .draft-cta{display:none!important}
+body.online:not(.playing) .scoreboard,body.online:not(.playing) .toolbar,body.online:not(.playing) .game-layout,body.online:not(.playing) footer{display:none!important}
+body.online.playing #onlineEntry,body.online.playing #onlineRoom,body.online.playing #onlineDraftWait{display:none!important}
+
+.online-bar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;max-width:860px;margin:0 auto 16px;padding:8px 14px;background:#fff;border:1px solid var(--border);border-radius:999px;box-shadow:0 4px 14px #32304708;font-size:12px}
+.online-bar[hidden]{display:none!important}
+.online-bar-label{color:var(--muted)}
+.online-bar b{font-size:16px;letter-spacing:.12em;color:var(--ink)}
+.online-identity{color:var(--muted);padding-left:8px;border-left:1px solid var(--border)}
+.online-bar .text-button{font-size:11px}
+
+.online-entry{display:flex;justify-content:center;padding:18px 0 48px}
+.online-card{width:min(520px,100%);padding:30px 30px 24px;background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:0 18px 50px #32304712}
+.online-eyebrow{margin:0 0 6px;color:var(--pink-deep);font-size:10px;font-weight:800;letter-spacing:.14em}
+.online-card h2{margin:0 0 10px;font-size:27px}
+.online-lead{margin:0 0 20px;color:#66647a;font-size:13px;line-height:1.8}
+.online-field{display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--muted);font-weight:700}
+.online-field input,.online-join input{height:44px;padding:0 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font:inherit;font-size:14px}
+.online-field input:focus,.online-join input:focus{outline:0;border-color:var(--pink);box-shadow:0 0 0 3px #f0919922;background:#fff}
+.online-create{width:100%;margin-top:10px;padding:12px}
+.online-join{display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.online-join input{flex:1;min-width:0;text-align:center;letter-spacing:.1em}
+.online-join .button{flex-shrink:0;padding:0 18px}
+.online-notice{min-height:18px;margin:10px 0 0;color:var(--pink-deep);font-size:12px;line-height:1.6}
+.online-notice:empty{display:none}
+
+.online-lobby{width:min(760px,100%);margin:0 auto 20px;padding:24px 26px}
+.online-lobby-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:16px}
+.online-lobby-head h2{margin:2px 0 4px;font-size:22px}
+.online-lobby-head .online-eyebrow{margin:0}
+.online-lobby-head .online-eyebrow b{letter-spacing:.12em;color:var(--ink);font-size:13px}
+.online-muted{margin:0;color:var(--muted);font-size:12px;line-height:1.7}
+.online-teams{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.online-team{border:1px solid var(--border);border-radius:14px;padding:12px 13px;background:linear-gradient(180deg,#fff,color-mix(in srgb,var(--team) 4%,white))}
+.online-team.red{--team:var(--red)}
+.online-team.blue{--team:var(--blue)}
+.online-team-head{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.online-team-head i{width:8px;height:8px;border-radius:50%;background:var(--team)}
+.online-team-head b{color:var(--team);font-size:13px}
+.online-team-head small{margin-left:auto;color:var(--muted);font-size:10px}
+.online-seat{display:flex;align-items:center;gap:8px;min-height:40px;padding:5px 0;border-top:1px dashed #ecebf2}
+.online-seat:first-of-type{border-top:0}
+.online-seat-role{width:52px;flex-shrink:0;color:var(--muted);font-size:10px;font-weight:700}
+.online-seat-name{flex:1;min-width:0;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.online-seat-name.me{color:var(--ink);font-weight:800}
+.online-seat .button{padding:4px 10px;font-size:10px;flex-shrink:0}
+.online-seat .is-current{background:var(--ink);color:#fff;border-color:var(--ink)}
+.online-ready-row{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap}
+.online-ready-state{flex:1;min-width:160px}
+.online-ready-state b{font-size:13px}
+.online-ready-state p{margin:3px 0 0;color:var(--muted);font-size:11px;line-height:1.6}
+.online-ready-row .button{padding:9px 18px}
+#onlineRoomNotice:empty{display:none}
+
+.online-draft-wait{width:min(560px,100%);margin:30px auto;padding:34px 26px;text-align:center;background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:0 16px 40px #32304710}
+.online-draft-wait h2{margin:4px 0 10px;font-size:24px}
+.online-draft-counts{margin:0 0 10px;font-size:16px;font-variant-numeric:tabular-nums}
+.online-draft-counts b{color:var(--red)}
+.online-draft-counts b.blue{color:var(--blue)}
+
+.online-chat{width:min(760px,100%);margin:18px auto 24px;padding:16px 20px}
+.online-chat .panel-title{margin-bottom:10px}
+.online-chat .chat-list{list-style:none;margin:0;padding:0;max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.online-chat .chat-message{display:flex;gap:8px;align-items:baseline;font-size:12px;line-height:1.55}
+.online-chat .chat-message.is-me{background:color-mix(in srgb,var(--pink) 7%,white);border-radius:7px;padding:3px 6px}
+.online-chat .chat-name{flex-shrink:0;color:var(--ink);font-size:11px}
+.online-chat .chat-name small{margin-left:4px;color:var(--pink-deep);font-size:9px}
+.online-chat .chat-text{min-width:0;overflow-wrap:anywhere;color:#4f4d60}
+.online-chat .chat-empty{color:var(--muted);font-size:11px;text-align:center;padding:12px}
+.online-chat .chat-form{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.online-chat .chat-form input{flex:1;min-width:0;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg);font:inherit;font-size:12px}
+.online-chat .chat-form .button{padding:0 16px;height:38px}
+
+@media(max-width:700px){
+  .online-bar{margin-bottom:12px;border-radius:14px;justify-content:flex-start;gap:6px 10px;padding:8px 11px}
+  .online-identity{width:100%;border-left:0;padding-left:0}
+  .online-card{padding:22px 18px 18px;border-radius:16px}
+  .online-card h2{font-size:23px}
+  .online-lobby{padding:18px 14px}
+  .online-teams{grid-template-columns:1fr}
+  .online-lobby-head{flex-direction:column}
+  .online-ready-row .button{flex:1}
+  .online-chat{margin:12px 0 18px;padding:13px 14px}
+}
+
+/* Draft dialog in a room: no close button, no footer actions, just the auto-advance hint. */
+body.online #draftClose{display:none!important}
+body.online .draft-picked-item{pointer-events:none}
+body.online #draftDialog .draft-foot{justify-content:center;padding:10px 24px}
+body.online #draftDialog .draft-status{flex:0 1 auto;text-align:center;color:var(--ink);font-weight:650;font-size:12px}
+
+/* During a match the room chat sits under the turn panel, like the original lobby. */
+body.online.playing .online-chat{width:auto;max-width:none;margin:14px 0 0;padding:13px 14px}
+body.online.playing .online-chat .chat-list{max-height:180px}
+body.online.playing .online-chat .chat-form{flex-direction:column}
+body.online.playing .online-chat .chat-form .button{width:100%}
+body.online.playing .online-chat .panel-title h3{font-size:12px}
+
+.online-local-link{display:inline-block;margin-top:14px;color:var(--ink);font-size:11px;text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px}
+.online-local-link:hover{color:var(--pink-deep);border-color:var(--pink)}
+
+#onlineDraftAbort{margin-top:16px}
+body.online #draftDialog .draft-actions .button{margin-top:0}
+
+.online-kick{font-size:10px;color:var(--pink-deep);padding:2px 4px;flex-shrink:0}

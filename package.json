@@ -1,0 +1,15 @@
+{
+  "name": "anicode-online",
+  "version": "1.0.0",
+  "private": true,
+  "description": "动画代号 · 队长选牌联机版",
+  "scripts": {
+    "start": "node online-server.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.22.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
